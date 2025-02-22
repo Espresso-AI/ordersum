@@ -11,7 +11,7 @@ mode:
   dataset: cnn_dm
   model: colo_bert
 
-# BERTSUM checkpoint must be prepared for training CoLo + BERT
+# BERTSUM checkpoint is required for training CoLo + BERT
 model_checkpoint: checkpoints/cnn_dm/bert_base/bertsum.ckpt
 train_checkpoint:
 test_checkpoint:

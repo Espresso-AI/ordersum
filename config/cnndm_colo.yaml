@@ -11,7 +11,7 @@ mode:
   dataset: cnn_dm
   model: colo_bart
 
-# BARTSUM checkpoint must be prepared for training CoLo
+# BARTSUM checkpoint is required for training CoLo
 model_checkpoint: checkpoints/cnn_dm/bart_base/bartsum.ckpt
 train_checkpoint:
 test_checkpoint:
