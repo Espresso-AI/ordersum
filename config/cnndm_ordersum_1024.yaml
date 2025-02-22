@@ -1,0 +1,45 @@
+hydra:
+  run:
+    dir: ./log/hydra/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+defaults:
+  - _self_
+  - dataset: cnn_dm
+  - trainer: max_seq_len_1024
+
+mode:
+  dataset: cnn_dm
+  model: ordersum_bart
+
+# BARTSUM 1024 checkpoint is required for training OrderSum 1024
+model_checkpoint: checkpoints/cnn_dm/bart_base/bartsum_1024.ckpt
+train_checkpoint:
+test_checkpoint:
+
+model:
+  base_checkpoint: facebook/bart-large-cnn
+  num_ext_sent: 5
+  num_can_sent: [2, 3]
+  enc_num_layers: 0
+  enc_dropout_prob: 0.1
+  margin: 0.01
+  alpha: 1.0
+  beta: 1.0
+  pool: average
+
+max_seq_len: 1024
+batch_size: 4
+
+engine:
+  num_can: 5
+  n_block: 3
+  freeze_base: False
+  lr: 1e-3
+  betas: [0.9, 0.999]
+  num_warmup_steps: 10000
+  save_result: True
+
+log:
+  project: OrderSum--${mode.dataset}
+  name: ordersum_1024--${now:%Y-%m-%d}/${now:%H-%M-%S}
+  save_dir: ./log
