@@ -1,0 +1,46 @@
+hydra:
+  run:
+    dir: ./log/hydra/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+defaults:
+  - _self_
+  - dataset: wikihow
+  - trainer: default
+
+mode:
+  dataset: wikihow
+  model: ordersum_bart
+
+# BARTSUM checkpoint is required for training OrderSum
+model_checkpoint: checkpoints/wikihow/bart_base/bartsum.ckpt
+train_checkpoint:
+test_checkpoint:
+
+model:
+  base_checkpoint: facebook/bart-large
+  num_ext_sent: 5
+  num_can_sent: [3, 4, 5]
+  num_can_train: 32
+  enc_num_layers: 0
+  enc_dropout_prob: 0.1
+  margin: 0.01
+  alpha: 1.0
+  beta: 1.0
+  pool: average
+
+max_seq_len: 512
+batch_size: 8
+
+engine:
+  num_can: 5
+  n_block: 3
+  freeze_base: False
+  lr: 1e-3
+  betas: [0.9, 0.999]
+  num_warmup_steps: 10000
+  save_result: True
+
+log:
+  project: OrderSum--${mode.dataset}
+  name: ordersum--${now:%Y-%m-%d}/${now:%H-%M-%S}
+  save_dir: ./log
