@@ -1,0 +1,7 @@
+
+path: dataset/wikihow
+
+df:
+  shuffle: False
+  val_ratio: 0.1
+  random_state: 42
